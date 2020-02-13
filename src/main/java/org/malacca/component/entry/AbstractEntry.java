@@ -1,4 +1,4 @@
 package org.malacca.component.entry;
 
-public class AbstractEntry {
+public abstract class AbstractEntry implements Entry {
 }
