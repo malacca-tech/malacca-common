@@ -1,6 +1,6 @@
 package org.malacca.component.handler.transformer;
 
-import org.malacca.component.handler.MessageHandler;
+import org.malacca.component.Component;
 
-public abstract class AbstractTransformer implements MessageHandler {
+public abstract class AbstractTransformer implements Component {
 }

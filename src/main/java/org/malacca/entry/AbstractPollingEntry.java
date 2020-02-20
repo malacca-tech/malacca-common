@@ -1,4 +1,4 @@
-package org.malacca.component.entry;
+package org.malacca.entry;
 
 public class AbstractPollingEntry {
 }
