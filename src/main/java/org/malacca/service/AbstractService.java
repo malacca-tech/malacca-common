@@ -50,13 +50,6 @@ public abstract class AbstractService implements Service {
 
     private Flow flow;
 
-    @Override
-    public void createService(String yml) {
-        // TODO: 2020/2/20 分解流程 1.解析文件 2.加载组件 3.解析流程
-        loadComponent(null, "");
-        loadFlow(null);
-    }
-
     /**
      * 加载组件
      * params 组件内部参数

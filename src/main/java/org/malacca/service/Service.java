@@ -15,14 +15,6 @@ package org.malacca.service;
  * </p>
  */
 public interface Service {
-
-    /**
-     * 创建服务
-     *
-     * @param yml 服务的配置文件
-     */
-    void createService(String yml);
-
     /**
      * 服务id
      *

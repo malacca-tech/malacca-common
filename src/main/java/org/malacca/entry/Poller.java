@@ -15,4 +15,10 @@ package org.malacca.entry;
  * </p>
  */
 public interface Poller extends Entry {
+    /**
+     * 获取时间表达式
+     *
+     * @return
+     */
+    String getCron();
 }
