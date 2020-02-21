@@ -28,8 +28,13 @@ public abstract class AbstractParser<T> implements Parser<T>{
      * 通用的 解析器
      */
     @Override
-    public T createInstance(Map<String, Object> params) throws ClassNotFoundException {
-        Class cl = Class.forName(className);
+    public T createInstance(Map<String, Object> params) {
+        Class cl = null;
+        try {
+            cl = Class.forName(className);
+        } catch (ClassNotFoundException e) {
+            // TODO: 2020/2/21 rizhi
+        }
         Object newInstance = BeanFactoryUtils.newInstance(cl);
         Map<String,Object> paramMap = (Map<String, Object>) params.get("params");
         paramMap.forEach((key,value)->{

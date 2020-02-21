@@ -54,26 +54,28 @@ public abstract class AbstractServiceManager implements ServiceManager {
      */
     @Override
     public void loadService(String yml) throws ServiceLoadException {
-        Map serviceMap;
+        Map<String,Object> serviceMap;
         try {
             serviceMap = YmlParserUtils.ymlToMap(yml);
         } catch (IOException e) {
             // TODO: 2020/2/21 log
            throw new ServiceLoadException("解析yml失败",e);
         }
+
+        // TODO: 2020/2/21 线程问题
         if(serviceMap!=null){
-            AbstractService service = buildServiceInstance(serviceMap);
+            Service service = buildServiceInstance(serviceMap);
             List<Map<String,Object>> components = (List<Map<String, Object>>) serviceMap.get("components");
             components.forEach(map->{
                 String type = String.valueOf(map.get("type"));
                 service.loadComponent(map,type);
                 service.loadFlow(String.valueOf(serviceMap.get("flow")));
             });
-
         }
     }
 
-    private AbstractService buildServiceInstance(Map<String,Object> serviceMap){
+    // TODO: 2020/2/21 yml 实体类
+    private Service buildServiceInstance(Map<String,Object> serviceMap){
         String serviceId = String.valueOf(serviceMap.get("serviceId"));
         String namespace = String.valueOf(serviceMap.get("namespace"));
         String version = String.valueOf(serviceMap.get("version"));

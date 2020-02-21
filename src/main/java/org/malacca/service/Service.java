@@ -1,5 +1,7 @@
 package org.malacca.service;
 
+import java.util.Map;
+
 /**
  * <p>
  * Title :
@@ -21,4 +23,16 @@ public interface Service {
      * @param serviceId
      */
     void setServiceId(String serviceId);
+
+    /**
+     * 加载组件
+     * params 组件内部参数
+     * type 组件类型 根据类型 判断使用哪种解析器
+     */
+    void loadComponent(Map<String, Object> params, String type);
+
+    /**
+     * 加载流程 使用FlowBuilder 闯将Flow
+     */
+    void loadFlow(String flowStr);
 }

@@ -3,20 +3,17 @@ package org.malacca.service;
 import org.malacca.component.Component;
 import org.malacca.messaging.Message;
 import org.malacca.support.parser.Parser;
-import org.malacca.utils.BeanFactoryUtils;
-
-import java.lang.reflect.Field;
 import java.util.Map;
 
 public class DefaultService extends AbstractService{
 
     @Override
-    void loadComponent(Map<String, Object> params, String type) {
+    public void loadComponent(Map<String, Object> params, String type) {
 
     }
 
     @Override
-    void loadFlow(String flowStr) {
+    public void loadFlow(String flowStr) {
 
     }
 
@@ -31,7 +28,7 @@ public class DefaultService extends AbstractService{
     }
 
     // TODO: 2020/2/21
-    private Component buildComponentInstance(Parser parser, Map<String,Object> params) throws ClassNotFoundException {
+    private Component buildComponentInstance(Parser parser, Map<String,Object> params) {
         Object instance = parser.createInstance(params);
         return (Component) instance;
     }

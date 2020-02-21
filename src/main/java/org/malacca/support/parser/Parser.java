@@ -12,5 +12,5 @@ public interface Parser<T> {
      * @return
      * @throws ClassNotFoundException
      */
-    T createInstance(Map<String,Object> params) throws ClassNotFoundException;
+    T createInstance(Map<String,Object> params);
 }

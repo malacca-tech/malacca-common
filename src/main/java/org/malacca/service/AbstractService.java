@@ -56,19 +56,6 @@ public abstract class AbstractService implements Service {
     private Flow flow;
 
     /**
-     * 加载组件
-     * params 组件内部参数
-     * type 组件类型 根据类型 判断使用哪种解析器
-     */
-    abstract void loadComponent(Map<String, Object> params, String type);
-
-    /**
-     * 加载流程 使用FlowBuilder 闯将Flow
-     */
-    abstract void loadFlow(String flowStr);
-
-
-    /**
      * 重发接口
      * componentId 组件id
      */
