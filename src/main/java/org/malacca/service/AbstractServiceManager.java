@@ -1,10 +1,15 @@
 package org.malacca.service;
 
+import org.malacca.exception.ServiceLoadException;
 import org.malacca.messaging.Message;
+import org.malacca.utils.YmlParserUtils;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.logging.Logger;
 
 /**
  * <p>
@@ -40,6 +45,49 @@ public abstract class AbstractServiceManager implements ServiceManager {
      * message 请求消息
      */
     abstract void retryFrom(String serviceId, String componentId, Message message);
+
+    /**
+     * 1.创建service实例
+     * 2.
+     * @param yml
+     * @throws ServiceLoadException
+     */
+    @Override
+    public void loadService(String yml) throws ServiceLoadException {
+        Map serviceMap;
+        try {
+            serviceMap = YmlParserUtils.ymlToMap(yml);
+        } catch (IOException e) {
+            // TODO: 2020/2/21 log
+           throw new ServiceLoadException("解析yml失败",e);
+        }
+        if(serviceMap!=null){
+            AbstractService service = buildServiceInstance(serviceMap);
+            List<Map<String,Object>> components = (List<Map<String, Object>>) serviceMap.get("components");
+            components.forEach(map->{
+                String type = String.valueOf(map.get("type"));
+                service.loadComponent(map,type);
+            });
+
+        }
+    }
+
+    private AbstractService buildServiceInstance(Map<String,Object> serviceMap){
+        String serviceId = String.valueOf(serviceMap.get("serviceId"));
+        String namespace = String.valueOf(serviceMap.get("namespace"));
+        String version = String.valueOf(serviceMap.get("version"));
+        String displayName = String.valueOf(serviceMap.get("displayName"));
+        String description = String.valueOf(serviceMap.get("description"));
+        DefaultService defaultService = new DefaultService();
+        defaultService.setServiceId(serviceId);
+        defaultService.setNamespace(namespace);
+        defaultService.setDisplayName(displayName);
+        defaultService.setDescription(description);
+        defaultService.setVersion(version);
+        Map env = (Map) serviceMap.get("env");
+        defaultService.setEnv(env);
+        return defaultService;
+    }
 
     public Map<String, Service> getServiceMap() {
         if (this.serviceMap == null) {

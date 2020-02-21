@@ -40,6 +40,11 @@ public abstract class AbstractService implements Service {
     private String namespace;
 
     /**
+     * 版本号
+     */
+    private String version;
+
+    /**
      * 组件通用环境变量
      */
     private Map<String, Object> env;
@@ -124,5 +129,13 @@ public abstract class AbstractService implements Service {
 
     public void setEnv(Map<String, Object> env) {
         this.env = env;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 }

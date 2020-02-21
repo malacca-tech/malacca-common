@@ -34,6 +34,13 @@
             <artifactId>spring-core</artifactId>
             <version>5.1.3.RELEASE</version>
         </dependency>
+        <!-- yml解析依赖-->
+        <dependency>
+            <groupId>com.esotericsoftware.yamlbeans</groupId>
+            <artifactId>yamlbeans</artifactId>
+            <version>1.08</version>
+        </dependency>
+
     </dependencies>
 
 
