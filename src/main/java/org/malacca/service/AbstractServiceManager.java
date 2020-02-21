@@ -67,6 +67,7 @@ public abstract class AbstractServiceManager implements ServiceManager {
             components.forEach(map->{
                 String type = String.valueOf(map.get("type"));
                 service.loadComponent(map,type);
+                service.loadFlow(String.valueOf(serviceMap.get("flow")));
             });
 
         }
