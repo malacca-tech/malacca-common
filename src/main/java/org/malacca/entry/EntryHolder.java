@@ -5,7 +5,7 @@ package org.malacca.entry;
  * Title :
  * </p>
  * <p>
- * Description:
+ * Description: 统一入口
  * </p>
  * <p>
  * Author :chensheng 2020/2/20

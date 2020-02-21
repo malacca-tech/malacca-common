@@ -7,6 +7,9 @@ import java.util.Map;
 
 public abstract class AbstractParser<T> implements Parser<T>{
 
+    /**
+     * 要创建的实例的className
+     */
     private String className;
 
     public AbstractParser(String className) {
