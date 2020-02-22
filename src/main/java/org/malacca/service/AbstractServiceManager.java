@@ -1,5 +1,7 @@
 package org.malacca.service;
 
+import org.malacca.definition.ComponentDefinition;
+import org.malacca.definition.ServiceDefinition;
 import org.malacca.exception.ServiceLoadException;
 import org.malacca.messaging.Message;
 import org.malacca.utils.YmlParserUtils;
@@ -9,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.logging.Logger;
 
 /**
  * <p>
@@ -49,46 +50,40 @@ public abstract class AbstractServiceManager implements ServiceManager {
     /**
      * 1.创建service实例
      * 2.
+     *
      * @param yml
      * @throws ServiceLoadException
      */
     @Override
     public void loadService(String yml) throws ServiceLoadException {
-        Map<String,Object> serviceMap;
+        ServiceDefinition serviceDefinition;
         try {
-            serviceMap = YmlParserUtils.ymlToMap(yml);
+            serviceDefinition = YmlParserUtils.ymlToDefinition(yml);
         } catch (IOException e) {
             // TODO: 2020/2/21 log
-           throw new ServiceLoadException("解析yml失败",e);
+            throw new ServiceLoadException("解析yml失败", e);
         }
 
         // TODO: 2020/2/21 线程问题
-        if(serviceMap!=null){
-            Service service = buildServiceInstance(serviceMap);
-            List<Map<String,Object>> components = (List<Map<String, Object>>) serviceMap.get("components");
-            components.forEach(map->{
-                String type = String.valueOf(map.get("type"));
-                service.loadComponent(map,type);
-                service.loadFlow(String.valueOf(serviceMap.get("flow")));
-            });
+        if (serviceDefinition != null) {
+            Service service = buildServiceInstance(serviceDefinition);
+            List<ComponentDefinition> componentDefinitions = serviceDefinition.getComponents();
+            for (ComponentDefinition componentDefinition : componentDefinitions) {
+                service.loadComponent(componentDefinition, componentDefinition.getType());
+                service.loadFlow(serviceDefinition.getFlow());
+            }
         }
     }
 
     // TODO: 2020/2/21 yml 实体类
-    private Service buildServiceInstance(Map<String,Object> serviceMap){
-        String serviceId = String.valueOf(serviceMap.get("serviceId"));
-        String namespace = String.valueOf(serviceMap.get("namespace"));
-        String version = String.valueOf(serviceMap.get("version"));
-        String displayName = String.valueOf(serviceMap.get("displayName"));
-        String description = String.valueOf(serviceMap.get("description"));
+    private Service buildServiceInstance(ServiceDefinition definition) {
         DefaultService defaultService = new DefaultService();
-        defaultService.setServiceId(serviceId);
-        defaultService.setNamespace(namespace);
-        defaultService.setDisplayName(displayName);
-        defaultService.setDescription(description);
-        defaultService.setVersion(version);
-        Map env = (Map) serviceMap.get("env");
-        defaultService.setEnv(env);
+        defaultService.setServiceId(definition.getServiceId());
+        defaultService.setNamespace(definition.getNamespace());
+        defaultService.setDisplayName(definition.getDisplayName());
+        defaultService.setDescription(definition.getDescription());
+        defaultService.setVersion(definition.getVersion());
+        defaultService.setEnv(definition.getEnv());
         return defaultService;
     }
 

@@ -2,6 +2,7 @@ package org.malacca.utils;
 
 import com.esotericsoftware.yamlbeans.YamlReader;
 import com.esotericsoftware.yamlbeans.YamlWriter;
+import org.malacca.definition.ServiceDefinition;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -13,16 +14,17 @@ public class YmlParserUtils {
 
     /**
      * yml 转map
+     *
      * @param yml
      * @return
      * @throws IOException
      */
-    public static Map ymlToMap(String yml) throws IOException {
+    public static ServiceDefinition ymlToDefinition(String yml) throws IOException {
         YamlReader yamlReader = null;
-        Map result;
+        ServiceDefinition result;
         try {
             yamlReader = new YamlReader(yml);
-            result = yamlReader.read(Map.class);
+            result = yamlReader.read(ServiceDefinition.class);
         } finally {
             yamlReader.close();
         }

@@ -1,5 +1,7 @@
 package org.malacca.service;
 
+import org.malacca.definition.ComponentDefinition;
+
 import java.util.Map;
 
 /**
@@ -29,7 +31,7 @@ public interface Service {
      * params 组件内部参数
      * type 组件类型 根据类型 判断使用哪种解析器
      */
-    void loadComponent(Map<String, Object> params, String type);
+    void loadComponent(ComponentDefinition definition, String type);
 
     /**
      * 加载流程 使用FlowBuilder 闯将Flow
