@@ -2,7 +2,6 @@ package org.malacca.entry;
 
 import org.malacca.messaging.Message;
 import org.malacca.support.MessageBuilder;
-import org.malacca.support.MessageBuilderFactory;
 
 import java.util.Map;
 
@@ -23,7 +22,7 @@ public abstract class AbstractEntry implements Entry {
     private Map<String, String> env;
 
     protected Message buildMessage(Map<String,Object> headers,Object payload){
-        return MessageBuilder.withPayload(payload).copyHeaders(headers).build();
+        return MessageBuilder.withPayload(payload).copyContext(headers).build();
     }
 
     public String getId() {

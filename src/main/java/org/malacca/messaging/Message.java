@@ -1,7 +1,9 @@
 package org.malacca.messaging;
 
+import java.util.Map;
+
 public interface Message<T> {
     T getPayload();
 
-    MessageHeaders getHeaders();
+    Map<String, Object> getContext();
 }
