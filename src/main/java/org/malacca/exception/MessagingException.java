@@ -1,11 +1,8 @@
 package org.malacca.exception;
 
 import org.malacca.messaging.Message;
-import org.springframework.core.NestedRuntimeException;
-import org.springframework.lang.Nullable;
 
-public class MessagingException extends NestedRuntimeException {
-    @Nullable
+public class MessagingException extends RuntimeException {
     private final Message<?> failedMessage;
 
     public MessagingException(Message<?> message) {
@@ -18,7 +15,7 @@ public class MessagingException extends NestedRuntimeException {
         this.failedMessage = null;
     }
 
-    public MessagingException(@Nullable String description, @Nullable Throwable cause) {
+    public MessagingException( String description, Throwable cause) {
         super(description, cause);
         this.failedMessage = null;
     }
@@ -33,12 +30,11 @@ public class MessagingException extends NestedRuntimeException {
         this.failedMessage = message;
     }
 
-    public MessagingException(Message<?> message, @Nullable String description, @Nullable Throwable cause) {
+    public MessagingException(Message<?> message,  String description,  Throwable cause) {
         super(description, cause);
         this.failedMessage = message;
     }
 
-    @Nullable
     public Message<?> getFailedMessage() {
         return this.failedMessage;
     }

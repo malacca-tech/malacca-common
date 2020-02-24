@@ -1,7 +1,9 @@
 package org.malacca.service;
 
 import org.malacca.definition.ComponentDefinition;
+import org.malacca.definition.EntryDefinition;
 import org.malacca.definition.ServiceDefinition;
+import org.malacca.entry.EntryRegister;
 import org.malacca.exception.ServiceLoadException;
 import org.malacca.messaging.Message;
 import org.malacca.utils.YmlParserUtils;
@@ -27,6 +29,11 @@ import java.util.concurrent.ThreadPoolExecutor;
  * </p>
  */
 public abstract class AbstractServiceManager implements ServiceManager {
+
+    /**
+     * entry 注册器 应该是注册进来
+     */
+    private EntryRegister entryRegister;
 
     /**
      * 服务缓存
@@ -67,11 +74,17 @@ public abstract class AbstractServiceManager implements ServiceManager {
         // TODO: 2020/2/21 线程问题
         if (serviceDefinition != null) {
             Service service = buildServiceInstance(serviceDefinition);
+            service.setEntryRegister(entryRegister);
+            //加载入口组件
+            List<EntryDefinition> entryDefinitions = serviceDefinition.getEntries();
+            for (EntryDefinition entryDefinition : entryDefinitions) {
+                service.loadEntry(entryDefinition, entryDefinition.getType());
+            }
             List<ComponentDefinition> componentDefinitions = serviceDefinition.getComponents();
             for (ComponentDefinition componentDefinition : componentDefinitions) {
                 service.loadComponent(componentDefinition, componentDefinition.getType());
-                service.loadFlow(serviceDefinition.getFlow());
             }
+            service.loadFlow(serviceDefinition.getFlow());
         }
     }
 

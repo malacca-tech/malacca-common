@@ -1,8 +1,13 @@
 package org.malacca.service;
 
 import org.malacca.component.Component;
+import org.malacca.definition.ComponentDefinition;
+import org.malacca.definition.EntryDefinition;
+import org.malacca.entry.Entry;
+import org.malacca.entry.EntryRegister;
 import org.malacca.flow.Flow;
 import org.malacca.messaging.Message;
+import org.malacca.support.parser.Parser;
 
 import java.util.Map;
 
@@ -53,13 +58,50 @@ public abstract class AbstractService implements Service {
      */
     private Map<String, Component> componentMap;
 
+    /**
+     * 流程
+     */
     private Flow flow;
+
+    private EntryRegister entryRegister;
 
     /**
      * 重发接口
      * componentId 组件id
      */
     abstract void retryFrom(String componentId, Message message);
+
+    // TODO: 2020/2/24 加载日志
+    @Override
+    public void loadComponent(ComponentDefinition definition, String type) {
+        //获取解析器
+        Parser<Component> parser = getParserByType(type);
+        //根据解析器获取组件
+        Component component = doLoadComponent(parser, definition);
+        //组件缓存
+        getComponentMap().put(definition.getId(), component);
+    }
+
+    @Override
+    public void loadEntry(EntryDefinition definition, String type) {
+        //获取解析器
+        Parser<Entry> parser = getParserByType(type);
+        //根据解析器获取组件
+        Entry entry = doLoadEntry(parser, definition);
+        //把entry通过注册器 注册到holder
+        entryRegister.EntryRegister(entry.getEntryKey(), entry, type);
+    }
+
+    @Override
+    public void loadFlow(String flowStr) {
+
+    }
+
+    abstract Parser getParserByType(String type);
+
+    abstract Component doLoadComponent(Parser<Component> parser, ComponentDefinition definition);
+
+    abstract Entry doLoadEntry(Parser<Entry> parser, EntryDefinition definition);
 
     public String getServiceId() {
         return serviceId;
@@ -68,6 +110,11 @@ public abstract class AbstractService implements Service {
     @Override
     public void setServiceId(String serviceId) {
         this.serviceId = serviceId;
+    }
+
+    @Override
+    public void setEntryRegister(EntryRegister register) {
+        this.entryRegister = register;
     }
 
     public String getDescription() {

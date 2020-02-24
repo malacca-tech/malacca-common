@@ -19,10 +19,20 @@ import org.malacca.messaging.Message;
 public interface Entry {
     /**
      * 处理组装好的消息
+     *
      * @param message
      * @return
      */
     Message handleMessage(Message<?> message);
 
     void setId(String componentId);
+
+    /**
+     * 用于区分每个entry的识别 eg: httpEntry -> entryKey= /path  pollerEntry -> entryKey = EntryId
+     *
+     * @param entryKey
+     */
+    void setEntryKey(String entryKey);
+
+    String getEntryKey();
 }

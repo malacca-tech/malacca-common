@@ -1,8 +1,8 @@
 package org.malacca.support;
 
+import com.sun.tools.javac.util.Assert;
 import org.malacca.messaging.GenericMessage;
 import org.malacca.messaging.Message;
-import org.springframework.util.Assert;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +30,7 @@ public class MessageBuilder<T> {
     private final Message<T> originalMessage;
 
     private MessageBuilder(T payload, Message<T> originalMessage) {
-        Assert.notNull(payload, "payload must not be null");
+        Assert.checkNonNull(payload, "payload must not be null");
         this.payload = payload;
         this.originalMessage = originalMessage;
     }
@@ -45,7 +45,7 @@ public class MessageBuilder<T> {
     }
 
     public static <T> MessageBuilder<T> fromMessage(Message<T> message) {
-        Assert.notNull(message, "message must not be null");
+        Assert.checkNonNull(message, "message must not be null");
         return new MessageBuilder(message.getPayload(), message);
     }
 

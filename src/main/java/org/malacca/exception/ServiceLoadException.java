@@ -1,6 +1,5 @@
 package org.malacca.exception;
 
-import org.springframework.core.NestedRuntimeException;
 
 /**
  * <p>
@@ -16,7 +15,7 @@ import org.springframework.core.NestedRuntimeException;
  * Department :
  * </p>
  */
-public class ServiceLoadException extends NestedRuntimeException {
+public class ServiceLoadException extends RuntimeException {
     // TODO: 2020/2/20 异常设计
     public ServiceLoadException(String msg, Throwable cause) {
         super(msg, cause);

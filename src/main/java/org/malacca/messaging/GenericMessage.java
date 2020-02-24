@@ -1,7 +1,6 @@
 package org.malacca.messaging;
 
-import org.springframework.util.Assert;
-import org.springframework.util.ObjectUtils;
+import com.sun.tools.javac.util.Assert;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -16,8 +15,8 @@ public class GenericMessage<T> implements Message<T>, Serializable {
     }
 
     public GenericMessage(T payload, Map<String, Object> context) {
-        Assert.notNull(payload, "Payload must not be null");
-        Assert.notNull(context, "MessageHeaders must not be null");
+        Assert.checkNonNull(payload, "Payload must not be null");
+        Assert.checkNonNull(context, "MessageHeaders must not be null");
         this.payload = payload;
         this.context = context;
     }
@@ -39,12 +38,16 @@ public class GenericMessage<T> implements Message<T>, Serializable {
             return false;
         } else {
             GenericMessage<?> otherMsg = (GenericMessage) other;
-            return ObjectUtils.nullSafeEquals(this.payload, otherMsg.payload) && this.context.equals(otherMsg.context);
+            return this.payload.equals(otherMsg.payload) && this.context.equals(otherMsg.context);
         }
     }
 
     public int hashCode() {
-        return ObjectUtils.nullSafeHashCode(this.payload) * 23 + this.context.hashCode();
+        if (payload != null) {
+            return this.payload.hashCode() * 23 + this.context.hashCode();
+        } else {
+            return this.context.hashCode();
+        }
     }
 
     public String toString() {

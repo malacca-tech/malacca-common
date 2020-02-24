@@ -1,6 +1,8 @@
 package org.malacca.service;
 
 import org.malacca.definition.ComponentDefinition;
+import org.malacca.definition.EntryDefinition;
+import org.malacca.entry.EntryRegister;
 
 import java.util.Map;
 
@@ -27,11 +29,26 @@ public interface Service {
     void setServiceId(String serviceId);
 
     /**
+     * entry 注册器
+     *
+     * @param register
+     */
+    void setEntryRegister(EntryRegister register);
+
+    /**
      * 加载组件
-     * params 组件内部参数
+     * definition 组件参数定义
      * type 组件类型 根据类型 判断使用哪种解析器
      */
     void loadComponent(ComponentDefinition definition, String type);
+
+    /**
+     * 加载入口组件
+     *
+     * @param definition 组件参数定义
+     * @param type       组件类型 根据类型 判断使用哪种解析器
+     */
+    void loadEntry(EntryDefinition definition, String type);
 
     /**
      * 加载流程 使用FlowBuilder 闯将Flow
