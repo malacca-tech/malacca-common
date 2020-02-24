@@ -3,6 +3,7 @@ package org.malacca.service;
 import org.malacca.definition.ComponentDefinition;
 import org.malacca.definition.EntryDefinition;
 import org.malacca.definition.ServiceDefinition;
+import org.malacca.entry.Entry;
 import org.malacca.entry.EntryRegister;
 import org.malacca.exception.ServiceLoadException;
 import org.malacca.messaging.Message;
@@ -86,6 +87,23 @@ public abstract class AbstractServiceManager implements ServiceManager {
             }
             service.loadFlow(serviceDefinition.getFlow());
         }
+    }
+
+    @Override
+    public void unloadService(String serviceId) {
+        // TODO: 2020/2/24 rizhi
+        Service service = getServiceMap().get(serviceId);
+        if (service != null) {
+            Map<String, Entry> entryMap = service.getEntryMap();
+            for (Entry entry : entryMap.values()) {
+                service.unloadEntry(entry);
+            }
+        }
+    }
+
+    @Override
+    public Map<String, Service> getServices() {
+        return this.serviceMap;
     }
 
     // TODO: 2020/2/21 yml 实体类

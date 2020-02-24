@@ -9,6 +9,7 @@ import org.malacca.flow.Flow;
 import org.malacca.messaging.Message;
 import org.malacca.support.parser.Parser;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -53,10 +54,16 @@ public abstract class AbstractService implements Service {
      * 组件通用环境变量
      */
     private Map<String, Object> env;
+
     /**
      * component 缓存
      */
-    private Map<String, Component> componentMap;
+    private Map<String, Component> componentMap = new HashMap<>();
+
+    /**
+     * entry 缓存
+     */
+    private Map<String, Entry> entryMap = new HashMap<>();
 
     /**
      * 流程
@@ -88,8 +95,15 @@ public abstract class AbstractService implements Service {
         Parser<Entry> parser = getParserByType(type);
         //根据解析器获取组件
         Entry entry = doLoadEntry(parser, definition);
+        //入口组件缓存
+        getEntryMap().put(definition.getId(), entry);
         //把entry通过注册器 注册到holder
-        entryRegister.EntryRegister(entry.getEntryKey(), entry, type);
+        entryRegister.loadEntry(entry);
+    }
+
+    @Override
+    public void unloadEntry(Entry entry) {
+        entryRegister.unloadEntry(entry);
     }
 
     @Override
@@ -171,5 +185,14 @@ public abstract class AbstractService implements Service {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    @Override
+    public Map<String, Entry> getEntryMap() {
+        return entryMap;
+    }
+
+    public void setEntryMap(Map<String, Entry> entryMap) {
+        this.entryMap = entryMap;
     }
 }

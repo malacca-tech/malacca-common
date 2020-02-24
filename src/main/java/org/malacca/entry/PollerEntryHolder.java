@@ -24,7 +24,7 @@ public abstract class PollerEntryHolder implements EntryHolder<Poller> {
     private Map<String, Poller> PollerEntryMap;
 
     @Override
-    public void registerEntry(String id, Poller entry) {
+    public void loadEntry(String id, Poller entry) {
         getHttpEntryMap().put(id, entry);
     }
 

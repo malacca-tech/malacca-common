@@ -25,11 +25,20 @@ public abstract class AbstractEntryRegister implements EntryRegister {
     private Map<String, EntryHolder> holderMap = new HashMap<>();
 
     @Override
-    public void EntryRegister(String entryKey, Entry entry, String type) {
-        EntryHolder entryHolder = holderMap.get(type);
+    public void loadEntry(Entry entry) {
+        EntryHolder entryHolder = holderMap.get(entry.getType());
         // TODO: 2020/2/24 日志
         if (entryHolder != null) {
-            entryHolder.registerEntry(entryKey, entry);
+            entryHolder.loadEntry(entry.getEntryKey(), entry);
+        }
+    }
+
+    @Override
+    public void unloadEntry(Entry entry) {
+        EntryHolder entryHolder = holderMap.get(entry.getType());
+        // TODO: 2020/2/24 日志
+        if (entryHolder != null) {
+            entryHolder.unloadEntry(entry.getEntryKey(), entry);
         }
     }
 

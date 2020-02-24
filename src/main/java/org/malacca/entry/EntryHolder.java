@@ -15,10 +15,21 @@ package org.malacca.entry;
  * </p>
  */
 public interface EntryHolder<T> {
+
     /**
+     * 加载入口
+     *
      * @param id    serviceId + entryId
      * @param entry httpEntry soapEntry poller
      * @return
      */
-    void registerEntry(String id, T entry);
+    void loadEntry(String id, T entry);
+
+    /**
+     * 卸载入口
+     *
+     * @param id
+     * @param entry
+     */
+    void unloadEntry(String id, T entry);
 }

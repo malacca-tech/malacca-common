@@ -35,4 +35,13 @@ public interface Entry {
     void setEntryKey(String entryKey);
 
     String getEntryKey();
+
+    /**
+     * 组件类型
+     *
+     * @param type
+     */
+    void setType(String type);
+
+    String getType();
 }

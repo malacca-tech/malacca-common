@@ -31,6 +31,18 @@ public class YmlParserUtils {
         return result;
     }
 
+    public static Map ymlToMap(Reader reader) throws IOException {
+        YamlReader yamlReader = null;
+        Map result;
+        try {
+            yamlReader = new YamlReader(reader);
+            result = yamlReader.read(Map.class);
+        } finally {
+            yamlReader.close();
+        }
+        return result;
+    }
+
     public static void mapToYml(Map map, String path) throws IOException {
         FileWriter fileWriter = null;
         YamlWriter writer = null;

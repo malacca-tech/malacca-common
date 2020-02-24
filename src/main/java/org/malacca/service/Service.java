@@ -2,6 +2,7 @@ package org.malacca.service;
 
 import org.malacca.definition.ComponentDefinition;
 import org.malacca.definition.EntryDefinition;
+import org.malacca.entry.Entry;
 import org.malacca.entry.EntryRegister;
 
 import java.util.Map;
@@ -46,12 +47,24 @@ public interface Service {
      * 加载入口组件
      *
      * @param definition 组件参数定义
-     * @param type       组件类型 根据类型 判断使用哪种解析器
+     * @param type       组件类型 根据类型 判断使用哪种holder
      */
     void loadEntry(EntryDefinition definition, String type);
+
+    /**
+     * 卸载入口组件
+     */
+    void unloadEntry(Entry entry);
 
     /**
      * 加载流程 使用FlowBuilder 闯将Flow
      */
     void loadFlow(String flowStr);
+
+    /**
+     * 获取entry缓存
+     *
+     * @return
+     */
+    Map<String, Entry> getEntryMap();
 }

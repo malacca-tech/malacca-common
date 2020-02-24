@@ -15,5 +15,13 @@ package org.malacca.entry;
  * </p>
  */
 public interface EntryRegister {
-    void EntryRegister(String entryKey, Entry entry, String type);
+
+    /**
+     * 注册入口
+     *
+     * @param entry 入口实例
+     */
+    void loadEntry(Entry entry);
+
+    void unloadEntry(Entry entry);
 }

@@ -24,7 +24,7 @@ public abstract class HttpEntryHolder implements EntryHolder<Entry> {
     private Map<String, Entry> httpEntryMap;
 
     @Override
-    public void registerEntry(String id, Entry entry) {
+    public void loadEntry(String id, Entry entry) {
         getHttpEntryMap().put(id, entry);
     }
 
