@@ -1,5 +1,6 @@
 package org.malacca.service;
 
+import com.sun.tools.javac.util.Assert;
 import org.malacca.component.Component;
 import org.malacca.definition.ComponentDefinition;
 import org.malacca.definition.EntryDefinition;
@@ -34,6 +35,7 @@ public class DefaultService extends AbstractService {
         try {
             Map<String, Object> parserMap = YmlParserUtils.ymlToMap(inputStreamReader);
             String parserClassName = String.valueOf(parserMap.get(type));
+            Assert.checkNonNull(parserClassName, "没找到" + type + "解析器");
             Class<?> parserClass = Class.forName(parserClassName);
             Parser parser = (Parser) parserClass.newInstance();
             return parser;
@@ -58,7 +60,7 @@ public class DefaultService extends AbstractService {
     @Override
     Component doLoadComponent(Parser<Component> parser, ComponentDefinition definition) {
         //组装 组件成员变量 map 以供 反射注入
-        Field[] fields = ComponentDefinition.class.getFields();
+        Field[] fields = ComponentDefinition.class.getDeclaredFields();
         Map<String, Object> params = definition.getParams();
         Map<String, Object> commonMap = getCommonMap(fields, definition, params);
         //解析器生成实例
@@ -69,7 +71,7 @@ public class DefaultService extends AbstractService {
     @Override
     Entry doLoadEntry(Parser<Entry> parser, EntryDefinition definition) {
         //组装 组件成员变量 map 以供 反射注入
-        Field[] fields = EntryDefinition.class.getFields();
+        Field[] fields = EntryDefinition.class.getDeclaredFields();
         Map<String, Object> params = definition.getParams();
         Map<String, Object> commonMap = getCommonMap(fields, definition, params);
         //解析器生成实例

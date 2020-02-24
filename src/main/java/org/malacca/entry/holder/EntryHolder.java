@@ -1,4 +1,4 @@
-package org.malacca.entry;
+package org.malacca.entry.holder;
 
 /**
  * <p>

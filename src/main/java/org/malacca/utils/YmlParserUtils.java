@@ -56,7 +56,6 @@ public class YmlParserUtils {
         }
     }
 
-
     private static Object toHashMap(Object o) {
         if (o instanceof Map) {
             if (!"HashMap".equals(o.getClass().getSimpleName())) {
@@ -77,5 +76,4 @@ public class YmlParserUtils {
         }
         return o;
     }
-
 }

@@ -4,7 +4,7 @@ import org.malacca.definition.ComponentDefinition;
 import org.malacca.definition.EntryDefinition;
 import org.malacca.definition.ServiceDefinition;
 import org.malacca.entry.Entry;
-import org.malacca.entry.EntryRegister;
+import org.malacca.entry.register.EntryRegister;
 import org.malacca.exception.ServiceLoadException;
 import org.malacca.messaging.Message;
 import org.malacca.utils.YmlParserUtils;
@@ -115,6 +115,8 @@ public abstract class AbstractServiceManager implements ServiceManager {
         defaultService.setDescription(definition.getDescription());
         defaultService.setVersion(definition.getVersion());
         defaultService.setEnv(definition.getEnv());
+        // TODO: 2020/2/24  应该是初始化的时候注入进去
+        defaultService.setEntryRegister(entryRegister);
         return defaultService;
     }
 
@@ -132,5 +134,13 @@ public abstract class AbstractServiceManager implements ServiceManager {
 
     public void setThreadExecutor(ThreadPoolExecutor threadExecutor) {
         this.threadExecutor = threadExecutor;
+    }
+
+    public EntryRegister getEntryRegister() {
+        return entryRegister;
+    }
+
+    public void setEntryRegister(EntryRegister entryRegister) {
+        this.entryRegister = entryRegister;
     }
 }

@@ -1,5 +1,9 @@
 package org.malacca
 
+import org.malacca.entry.Entry
+import org.malacca.entry.holder.HttpEntryHolder
+import org.malacca.entry.register.DefaultEntryRegister
+import org.malacca.service.DefaultServiceManager
 import spock.lang.Specification
 
 /**
@@ -16,11 +20,11 @@ import spock.lang.Specification
  * Department :
  * </p>
  */
-class ServiceDemo extends Specification{
+class ServiceDemo extends Specification {
 
-    def test(){
+    def test() {
         given: "准备数据"
-        def serviceYml="# 此yml 为基础描述esb服务文档，包含 serviceId,namespace,version,dispalyName,description,entries,components,flow 属性\n" +
+        def serviceYml = "# 此yml 为基础描述esb服务文档，包含 serviceId,namespace,version,dispalyName,description,entries,components,flow 属性\n" +
                 "# 此配置 模板 应满足不依赖第三方 而独立解析成业务\n" +
                 "# 服务唯一标识\n" +
                 "serviceId: A001\n" +
@@ -45,7 +49,7 @@ class ServiceDemo extends Specification{
                 "    #组件特有参数\n" +
                 "    params:\n" +
                 "      # http 映射路径 创建实例 handlerMapping 处理映射\n" +
-                "      uri: /path/test1\n" +
+                "      path: /path/test1\n" +
                 "      method: GET\n" +
                 "    # 环境变量 key-value\n" +
                 "    env: \n" +
@@ -61,12 +65,12 @@ class ServiceDemo extends Specification{
                 "    status: false\n" +
                 "    #组件特有参数\n" +
                 "    params:\n" +
-                "      uri: /path/test2\n" +
+                "      path: /path/test2\n" +
                 "      method: GET\n" +
                 "# 组件 包括 中间的数据业务组件 以及 输出组件\n" +
                 "components:\n" +
                 "  # webservice\n" +
-                "  - type: httpOut\n" +
+                "  - type: httpOutput\n" +
                 "    # 组件id\n" +
                 "    id: soapOut1\n" +
                 "    #组件name\n" +
@@ -86,5 +90,16 @@ class ServiceDemo extends Specification{
                 "  start --> http1 \n" +
                 "  http1 --> http2\n" +
                 "  http2 --> stop"
+        def serviceManager = new DefaultServiceManager()
+        def entryRegister = new DefaultEntryRegister()
+        entryRegister.putHolder("httpInput", new HttpEntryHolder() {
+
+            @Override
+            void unloadEntry(String id, Entry entry) {
+
+            }
+        })
+        serviceManager.setEntryRegister(entryRegister)
+        serviceManager.loadService(serviceYml)
     }
 }

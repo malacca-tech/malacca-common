@@ -1,4 +1,7 @@
-package org.malacca.entry;
+package org.malacca.entry.holder;
+
+import org.malacca.entry.Poller;
+import org.malacca.entry.holder.EntryHolder;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -5,7 +5,10 @@ import org.malacca.utils.BeanFactoryUtils;
 import java.lang.reflect.Field;
 import java.util.Map;
 
-public abstract class AbstractParser<T> implements Parser<T>{
+public abstract class AbstractParser<T> implements Parser<T> {
+
+    public AbstractParser() {
+    }
 
     /**
      * 要创建的实例的className
@@ -36,13 +39,9 @@ public abstract class AbstractParser<T> implements Parser<T>{
             // TODO: 2020/2/21 rizhi
         }
         Object newInstance = BeanFactoryUtils.newInstance(cl);
-        Map<String,Object> paramMap = (Map<String, Object>) params.get("params");
-        paramMap.forEach((key,value)->{
-            params.put(key,value);
-        });
-        Field[] fields = cl.getFields();
+        Field[] fields = BeanFactoryUtils.getAllFields(cl);
         for (Field field : fields) {
-            BeanFactoryUtils.setField(newInstance,field,params.get(field.getName()));
+            BeanFactoryUtils.setField(newInstance, field, params.get(field.getName()));
         }
         return (T) newInstance;
     }

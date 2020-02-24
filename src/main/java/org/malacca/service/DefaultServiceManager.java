@@ -24,5 +24,4 @@ public class DefaultServiceManager extends AbstractServiceManager {
     void retryFrom(String serviceId, String componentId, Message message) {
 
     }
-
 }

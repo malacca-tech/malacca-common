@@ -1,4 +1,7 @@
-package org.malacca.entry;
+package org.malacca.entry.holder;
+
+import org.malacca.entry.Entry;
+import org.malacca.entry.holder.EntryHolder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,11 +30,6 @@ public abstract class HttpEntryHolder implements EntryHolder<Entry> {
     public void loadEntry(String id, Entry entry) {
         getHttpEntryMap().put(id, entry);
     }
-
-    /**
-     * 初始化时加载所有的Http请求入口，并映射出去
-     */
-    public abstract void loadHttpEntry();
 
     public Map<String, Entry> getHttpEntryMap() {
         if (httpEntryMap == null) {

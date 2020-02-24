@@ -1,4 +1,6 @@
-package org.malacca.entry;
+package org.malacca.entry.register;
+
+import org.malacca.entry.Entry;
 
 /**
  * <p>

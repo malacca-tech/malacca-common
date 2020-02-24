@@ -3,7 +3,7 @@ package org.malacca.service;
 import org.malacca.definition.ComponentDefinition;
 import org.malacca.definition.EntryDefinition;
 import org.malacca.entry.Entry;
-import org.malacca.entry.EntryRegister;
+import org.malacca.entry.register.EntryRegister;
 
 import java.util.Map;
 
